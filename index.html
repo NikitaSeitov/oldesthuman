@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Регистрация</title>
+  <style>
+    :root {
+      --background: #ffffff;
+      --surface: #ffffff;
+      --text: #111111;
+      --muted: #707070;
+      --line: #111111;
+      --accent: #111111;
+      --accent-hover: #333333;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: var(--background);
+      color: var(--text);
+      font-family: "Gogh", "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 28px;
+      min-height: 100vh;
+    }
+
+    .registration-card {
+      width: min(780px, 100%);
+      background: var(--surface);
+      border-top: 8px solid var(--line);
+      padding: 22px 0 0;
+    }
+
+    .registration-card.is-success {
+      border-top: 0;
+      padding-top: 30px;
+    }
+
+    .brand-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      max-width: 620px;
+      font-size: clamp(42px, 8vw, 82px);
+      font-weight: 700;
+      line-height: 0.92;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .intro {
+      max-width: 420px;
+      margin: 0 0 52px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .registration-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px 22px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+
+    .field {
+      display: grid;
+      gap: 7px;
+    }
+
+    .field label {
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 48px;
+      padding: 10px 0;
+      border: 0;
+      border-bottom: 1px solid #8a8a8a;
+      border-radius: 0;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+      font-size: 16px;
+      outline: none;
+      transition: border-color 120ms ease;
+    }
+
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: none;
+    }
+
+    .field input::placeholder {
+      color: #9aa5af;
+    }
+
+    input[type="date"] {
+      appearance: auto;
+    }
+
+    .submit-button {
+      grid-column: 1 / -1;
+      justify-self: start;
+      min-width: 240px;
+      min-height: 44px;
+      margin-top: 12px;
+      border: 1px solid #111111;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-family: "Gogh", "Segoe UI", Arial, sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      transition: background 120ms ease;
+    }
+
+    .submit-button:hover {
+      background: var(--accent-hover);
+    }
+
+    .success-page {
+      display: none;
+      padding: 64px 0 32px;
+      text-align: center;
+      border-top: 1px solid var(--line);
+    }
+
+    .success-page.is-visible {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .success-page h1 {
+      max-width: none;
+      margin: 0 0 16px;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 500;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .success-page p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    @media (max-width: 520px) {
+      .registration-card {
+        padding-top: 18px;
+      }
+
+      .brand-line {
+        font-size: 9px;
+      }
+
+      .registration-form {
+        grid-template-columns: 1fr;
+      }
+
+      .submit-button {
+        grid-column: auto;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="registration-card">
+    <h1>Регистрация участника</h1>
+    <p class="intro">Заполните форму, чтобы продолжить.</p>
+
+    <form id="registrationForm" class="registration-form">
+      <div class="field">
+        <label for="firstName">Имя</label>
+        <input id="firstName" name="firstName" type="text" autocomplete="given-name" placeholder="Введите имя" required />
+      </div>
+
+      <div class="field">
+        <label for="lastName">Фамилия</label>
+        <input id="lastName" name="lastName" type="text" autocomplete="family-name" placeholder="Введите фамилию" required />
+      </div>
+
+      <div class="field">
+        <label for="email">Электронная почта</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+      </div>
+
+      <div class="field">
+        <label for="dob">Дата рождения</label>
+        <input id="dob" name="dob" type="date" required />
+      </div>
+
+      <button class="submit-button" type="submit">Зарегистрироваться</button>
+    </form>
+
+    <section id="successPage" class="success-page" aria-live="polite">
+      <h1>Вы успешно зарегистрированы!!</h1>
+      <p>Спасибо за регистрацию.</p>
+    </section>
+  </main>
+
+  <div class="hidden">
+      <div id="statusPill"></div>
+      <div id="personName"></div>
+      <div id="minDateText"></div>
+      <div id="nowText"></div>
+      <div id="ageBreakdown"></div>
+      <div id="recordName"></div>
+      <div id="recordStatus"></div>
+      <div id="alertText"></div>
+      <div id="historyText"></div>
+  </div>
+
+  <script>
+    const people = [
+      { name: "Jeanne Calment", born: "1875-02-21", died: "1997-08-04" },
+      { name: "Sarah Knauss", born: "1880-09-24", died: "1999-12-30" },
+      { name: "Jiroemon Kimura", born: "1897-04-19", died: "2013-06-12" },
+      { name: "Misao Okawa", born: "1898-03-05", died: "2015-07-01" },
+      { name: "Mabel Ping-Hua Lee", born: "1901-10-15", died: "2020-11-10" },
+      { name: "Maria Branyas Morera", born: "1907-03-04", died: "2024-01-20" },
+      { name: "Tomiko Itooka", born: "1927-05-23", died: "2024-12-29" },
+      { name: "Alicia Martins", born: "1910-04-20", died: null },
+      { name: "Nora Wren", born: "1918-12-03", died: null }
+    ].sort((a, b) => new Date(a.born) - new Date(b.born));
+
+    const dobInput = document.getElementById("dob");
+    const registrationForm = document.getElementById("registrationForm");
+    const successPage = document.getElementById("successPage");
+    const registrationCard = document.querySelector(".registration-card");
+    const registrationTitle = document.querySelector(".registration-card > h1");
+    const registrationIntro = document.querySelector(".registration-card > .intro");
+
+    function formatDateISO(date) {
+      const d = new Date(date);
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    }
+
+    function resolveCurrentOldestPerson() {
+      const now = new Date();
+      for (const person of people) {
+        const diedAt = person.died ? new Date(person.died) : null;
+        if (!diedAt || diedAt > now) {
+          return person;
+        }
+      }
+      return people[people.length - 1];
+    }
+
+    function updateCalendarLimit() {
+      const person = resolveCurrentOldestPerson();
+      const now = new Date();
+      const minDate = new Date(person.born);
+      const today = formatDateISO(now);
+
+      if (!dobInput.value || new Date(dobInput.value) < minDate || new Date(dobInput.value) > now) {
+        dobInput.value = today;
+      }
+
+      dobInput.min = formatDateISO(minDate);
+      dobInput.max = today;
+    }
+
+    dobInput.addEventListener("input", () => {
+      if (!dobInput.value) return;
+      const chosen = new Date(dobInput.value);
+      const min = new Date(dobInput.min);
+      const max = new Date(dobInput.max);
+
+      if (chosen < min) dobInput.value = dobInput.min;
+      if (chosen > max) dobInput.value = dobInput.max;
+    });
+
+    dobInput.addEventListener("change", () => {
+      if (dobInput.value) {
+        dobInput.value = formatDateISO(new Date(`${dobInput.value}T00:00:00`));
+      }
+    });
+
+    registrationForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      registrationForm.style.display = "none";
+      registrationTitle.style.display = "none";
+      registrationIntro.style.display = "none";
+      registrationCard.classList.add("is-success");
+      successPage.classList.add("is-visible");
+
+      window.setTimeout(() => {
+        successPage.classList.remove("is-visible");
+        registrationCard.classList.remove("is-success");
+        registrationForm.reset();
+        updateCalendarLimit();
+        registrationTitle.style.display = "block";
+        registrationIntro.style.display = "block";
+        registrationForm.style.display = "grid";
+      }, 7000);
+    });
+
+    updateCalendarLimit();
+  </script>
+</body>
+</html>
